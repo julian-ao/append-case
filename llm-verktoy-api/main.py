@@ -1,4 +1,3 @@
-import asyncio
 import os
 from fastapi import FastAPI
 import httpx
@@ -30,7 +29,7 @@ async def get_all_consultants() -> list[dict]:
 @app.get("/tilgjengelige-konsulenter/sammendrag")
 async def get_consultants_summary(
   min_tilgjengelighet_prosent: int,
-  påkrevd_ferdighet: str
+  paakrevd_ferdighet: str
 ) -> dict[str, str]:
   """
   Get a summary of available consultants based on minimum availability percentage and required skill
@@ -47,16 +46,12 @@ async def get_consultants_summary(
   available_consultants = [c for c in all_consultants if 100 - c.get("load_percent", 0) >= min_tilgjengelighet_prosent]
 
   # filter based on skill
-  skilled_consultants = [c for c in available_consultants if påkrevd_ferdighet in c.get("skills", [])]
+  skilled_consultants = [c for c in available_consultants if paakrevd_ferdighet in c.get("skills", [])]
 
   if not skilled_consultants:
     return {"sammendrag": "Ingen konsulenter matcher kriteriene."}
   
   # create summary
-  summary = await create_ai_summary(skilled_consultants, min_tilgjengelighet_prosent, påkrevd_ferdighet)
+  summary = await create_ai_summary(skilled_consultants, min_tilgjengelighet_prosent, paakrevd_ferdighet)
 
   return {"sammendrag": summary}
-
-if __name__ == "__main__":
-  result = asyncio.run(get_consultants_summary(20, "python"))
-  print(result)

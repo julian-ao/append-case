@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  konsulent-api:
+    build:
+      context: ./konsulent-api
+    container_name: konsulent-api
+    ports:
+      - "8000:8000"
+    networks:
+      - app-network
+
+  llm-verktoy-api:
+    build:
+      context: ./llm-verktoy-api
+    container_name: llm-verktoy-api
+    ports:
+      - "8001:8001"
+    environment:
+      - KONSULENT_API_URL=http://konsulent-api:8000
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+    depends_on:
+      - konsulent-api
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
