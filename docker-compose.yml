@@ -19,6 +19,7 @@ services:
     environment:
       - KONSULENT_API_URL=http://konsulent-api:8000
       - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      - OPENROUTER_MODEL=${OPENROUTER_MODEL}
     depends_on:
       - konsulent-api
     networks:

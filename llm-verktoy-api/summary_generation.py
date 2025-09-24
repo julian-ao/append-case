@@ -9,7 +9,7 @@ async def call_openrouter_api(prompt: str) -> str:
   """
 
   OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
-  MODEL = "openai/gpt-4o-mini"
+  MODEL = os.getenv("OPENROUTER_MODEL", "openai/gpt-4o-mini")
 
   try:
     if not OPENROUTER_API_KEY:

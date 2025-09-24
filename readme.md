@@ -15,6 +15,7 @@ Both services run in separate Docker containers and communicate over a Docker ne
 
 ```env
 OPENROUTER_API_KEY=sk-yourapikeyhere
+OPENROUTER_MODEL=yourmodelhere # Optional, defaults to gpt-4o-mini
 ```
 
 ## Running the project
