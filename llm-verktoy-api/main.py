@@ -27,13 +27,24 @@ def calculate_availability(load_percent: int) -> int:
   return 100 - load_percent
 
 
-async def create_summary(consultants: list[dict], min_tilgjengelighet_prosent: int, påkrevd_ferdighet: str) -> str:
+def create_summary(consultants: list[dict], min_tilgjengelighet_prosent: int, påkrevd_ferdighet: str) -> str:
   """
-  Create a summary of consultants using LLM
+  Create a text summary of consultants available
   """
-  # This is a placeholder for actual LLM integration
-  # For now, we just return a dummy summary
-  return f"Found {len(consultants)} consultants with at least {min_tilgjengelighet_prosent}% availability and skill '{påkrevd_ferdighet}'."
+
+  summary = ""
+
+  if len(consultants) == 0:
+    return "Ingen konsulenter matcher kriteriene."
+  if len(consultants) == 1:
+    summary += f"Fant 1 konsulent med minst {min_tilgjengelighet_prosent}% tilgjengelighet og ferdigheten '{påkrevd_ferdighet}'."
+  else:
+    summary += f"Fant {len(consultants)} konsulenter med minst {min_tilgjengelighet_prosent}% tilgjengelighet og ferdigheten '{påkrevd_ferdighet}'."
+  
+  for c in consultants:
+    summary += f" {c['name']} har {calculate_availability(c.get('load_percent', 0))}% tilgjengelighet."
+
+  return summary
 
 
 @app.get("/tilgjengelige-konsulenter/sammendrag")
@@ -46,7 +57,11 @@ async def get_consultants_summary(
   """
   
   # get all consultants
-  all_consultants = await get_all_consultants()
+  try:
+    all_consultants = await get_all_consultants()
+  except Exception as e:
+    print(f"Error fetching consultants: {e}")
+    return {"sammendrag": "Kunne ikke hente konsulenter."}
 
   # filter based on availability
   available_consultants = [c for c in all_consultants if calculate_availability(c.get("load_percent", 0)) >= min_tilgjengelighet_prosent]
@@ -58,6 +73,6 @@ async def get_consultants_summary(
     return {"sammendrag": "Ingen konsulenter matcher kriteriene."}
   
   # create summary
-  summary = await create_summary(skilled_consultants, min_tilgjengelighet_prosent, påkrevd_ferdighet)
+  summary = create_summary(skilled_consultants, min_tilgjengelighet_prosent, påkrevd_ferdighet)
 
   return {"sammendrag": summary}
