@@ -1,0 +1,9 @@
+{
+  "consultant-staffing": {
+    "command": "/Users/julian/Development/append-case/llm-verktoy-api/venv/bin/python",
+    "args": ["/Users/julian/Development/append-case/llm-verktoy-api/mcp_server.py"],
+    "env": {
+      "KONSULENT_API_URL": "http://localhost:8000"
+    }
+  }
+}

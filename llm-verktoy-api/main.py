@@ -1,3 +1,4 @@
+import logging
 import os
 from fastapi import FastAPI
 import httpx
@@ -22,7 +23,7 @@ async def get_all_consultants() -> list[dict]:
     response.raise_for_status()
     return response.json()
   except Exception as e:
-    print(f"Error fetching consultants: {e}")
+    logging.error(f"Error fetching consultants: {e}")
     return []
 
 

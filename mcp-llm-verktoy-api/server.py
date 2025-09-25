@@ -1,9 +1,14 @@
 import logging
 import os
+import sys
 from fastmcp import FastMCP
 import httpx
 
 from summary_generation import create_ai_summary
+
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', stream=sys.stdout)
+
 
 mcp = FastMCP("LLM Verktøy API")
 
@@ -47,7 +52,7 @@ async def get_consultants_summary(
   available_consultants = [c for c in all_consultants if 100 - c.get("load_percent", 0) >= min_tilgjengelighet_prosent]
 
   # filter based on skill
-  skilled_consultants = [c for c in available_consultants if paakrevd_ferdighet in c.get("skills", [])]
+  skilled_consultants = [c for c in available_consultants if paakrevd_ferdighet.lower() in c.get("skills", [])]
 
   if not skilled_consultants:
     return {"sammendrag": "Ingen konsulenter matcher kriteriene."}

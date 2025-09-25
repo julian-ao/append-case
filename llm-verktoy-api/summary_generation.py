@@ -1,3 +1,4 @@
+import logging
 import os
 import httpx
 import json
@@ -35,7 +36,7 @@ async def call_openrouter_api(prompt: str) -> str:
     data = response.json()
     return data["choices"][0]["message"]["content"].strip()
   except Exception as e:
-    print(f"Error calling OpenRouter: {e}")
+    logging.error(f"Error calling OpenRouter: {e}")
     return "Error calling OpenRouter."
 
 
