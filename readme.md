@@ -26,17 +26,3 @@ Start both services using Docker Compose:
 ```bash
 docker-compose up --build
 ```
-
-## Test endpoints
-
-- Fetch all consultants:
-
-  ```bash
-  curl http://localhost:8000/konsulenter
-  ```
-
-- Get a summary of available consultants:
-
-  ```bash
-  curl "http://localhost:8001/tilgjengelige-konsulenter/sammendrag?min_tilgjengelighet_prosent=50&paakrevd_ferdighet=python"
-  ```
