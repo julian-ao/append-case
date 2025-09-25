@@ -4,6 +4,7 @@ This project contains two FastAPI microservices:
 
 1. **konsulent-api** – Provides a hardcoded list of consultants.
 2. **mcp-llm-verktoy-api** – Fetches consultants from `konsulent-api`, filters them based on availability and skills, and generates a human-readable summary. Can optionally generate summaries using OpenRouter LLM. The service is built using FastMCP.
+3. **llm-verktoy-api(Wrong solution)** - A previous attempt where I thought the case was building a simple REST API around LLM calls. This service is not used in the final solution.
 
 Both services run in separate Docker containers and communicate over a Docker network.
 
